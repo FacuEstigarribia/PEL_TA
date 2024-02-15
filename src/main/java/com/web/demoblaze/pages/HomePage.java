@@ -8,16 +8,11 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.Duration;
 import java.util.List;
-import java.util.Properties;
+
 
 public class HomePage {
-
-
     protected WebDriver driver;
     @FindBy(xpath = "//a[@id='signin2']")
     private WebElement signUpBtn;
@@ -43,10 +38,10 @@ public class HomePage {
     @FindBy(xpath = "//input[@id='loginpassword']")
     private WebElement passwordField;
 
-    @FindBy(xpath = "//*[@id='logInModal']/div/div/div[3]/button[2]")
+    @FindBy(xpath = "//div[@id='logInModal']//div[@class='modal-footer']/button[2]")
     private WebElement logInBtnModal;
 
-    @FindBy(xpath = "//a[@id='nameofuser']")
+    @FindBy(xpath = "//div[@id='navbarExample']//li//a[@id='nameofuser']")
     private WebElement welcomeNameOfUser;
 
     @FindBy(xpath = "/html/body/div[5]/div/div[1]/div/a[4]")
@@ -63,14 +58,23 @@ public class HomePage {
         this.driver = driver;
     }
 
-    public void sendLogInData(String username, String password){
+    private void clickLogInHomePage(){
         logInBtn.click();
+    }
+
+    public void sendLogInData(String username, String password){
+        clickLogInHomePage();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='logInModal']")));
         usernameField.sendKeys(username);
         passwordField.sendKeys(password);
-        clickLogInModal();
+        logInBtnModal.click();
+    }
 
+    public String getNameOfUser(){
+        String name = welcomeNameOfUser.getText();
+        System.out.println("Name of user: " + welcomeNameOfUser.getText());
+        return name;
     }
 
     public String signUpUser(String username, String password){
@@ -86,11 +90,7 @@ public class HomePage {
 
 
 
-    public String getNameOfUser(){
-        String name = welcomeNameOfUser.getText();
-        System.out.println("Name of user: " + welcomeNameOfUser.getText());
-        return name;
-    }
+
 
 
     public void searchMonitors(){
@@ -108,9 +108,7 @@ public class HomePage {
         }
     }
 
-    private void clickLogInModal(){
-        logInBtnModal.click();
-    }
+
 
 
 }

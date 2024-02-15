@@ -6,25 +6,17 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 public class TestLogin extends BaseTest{
 
 
-    private String username;
-    private String password;
+    private static String username;
+    private static String password;
 
-    @Test
-    public void testLogIn(){
-        loadCredentials();
-        homePage.sendLogInData(username, password);
-        Assert.assertEquals("Welcome demoUser_F", homePage.getNameOfUser(), "Error in Name of user. Is not that was expected");
-
-    }
-
-    private void loadCredentials() {
+    static {
         Properties prop = new Properties();
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream("test_data.properties")){
+        try (InputStream input = TestLogin.class.getClassLoader().getResourceAsStream("test_data.properties")){
 
             prop.load(input);
 
@@ -36,4 +28,12 @@ public class TestLogin extends BaseTest{
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void testLogIn(){
+        homePage.sendLogInData(username, password);
+        assertEquals("Welcome demoUser_F", homePage.getNameOfUser(), "Error in Name of user.");
+
+    }
+
 }
