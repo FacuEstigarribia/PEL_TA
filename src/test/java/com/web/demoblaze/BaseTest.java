@@ -1,5 +1,5 @@
 package com.web.demoblaze;
-
+//
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import com.web.demoblaze.pages.HomePage;
+import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -42,7 +43,7 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void recordFailure(ITestResult result){
+    public void recordFailure(@NotNull ITestResult result){
         if(ITestResult.FAILURE == result.getStatus()) {
             TakesScreenshot camera = (TakesScreenshot) driver;
             File screenshot = camera.getScreenshotAs(OutputType.FILE);
